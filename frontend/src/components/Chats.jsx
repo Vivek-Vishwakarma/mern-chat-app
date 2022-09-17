@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import Nav from "./Nav";
+import Mychats from "./Mychats";
+import { Box } from "@mui/material";
+import MainMessage from "./MainMessage";
+
 const Chats = () => {
-  const [chats, setChats] = useState([]);
-  const fetchChats = async () => {
-    const { data } = await axios.get("http://localhost:5000/api/chats");
-    setChats(data);
-  };
-  useEffect(() => {
-    fetchChats();
-  }, []);
   return (
     <>
-      {chats.map((ele) => (
-        <div key={ele._id}>{ele.chatName}</div>
-      ))}
+      <Nav />
+      <Box sx={{ display: "flex" }}>
+        <Mychats />
+        <MainMessage />
+      </Box>
     </>
   );
 };

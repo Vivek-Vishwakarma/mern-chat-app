@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const userRouter = require("./routes/userRoutes");
+const chatRouter = require("./routes/chatRoutes");
+const groupRouter = require("./routes/groupRoutes");
+
 dotenv.config();
 app.use(cors());
 app.use(express.json());
@@ -20,6 +23,8 @@ mongoose
   });
 
 app.use("/api/auth", userRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/group", groupRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Started server");

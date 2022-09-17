@@ -16,6 +16,7 @@ import { useState } from "react";
 import axios from "axios";
 import "../App.css";
 import Error from "./Error";
+import { useNavigate } from "react-router-dom";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -44,6 +45,7 @@ function a11yProps(index) {
 }
 
 const Home = () => {
+  const navigate = useNavigate();
   const cloud = import.meta.env.VITE_CLOUDINARY;
   const cloudName = import.meta.env.VITE_CLOUD_NAME;
   const [url, setUrl] = useState("");
@@ -80,6 +82,8 @@ const Home = () => {
       setLoading(false);
       setErrorMsg("Registeration successful");
       setType("success");
+      localStorage.setItem("userInfo", JSON.stringify(data.data.user));
+      navigate("/chats");
     } catch (error) {
       setError(true);
       setType("error");
@@ -118,11 +122,13 @@ const Home = () => {
         email: user.email,
         password: user.password,
       });
-      console.log(data.data.user);
+      console.log(data.data.user._id);
       setType("success");
       setErrorMsg("Login successful");
       setLoading(false);
       setError(true);
+      navigate("/chats");
+      localStorage.setItem("userInfo", JSON.stringify(data.data.user));
     } catch (error) {
       setError(true);
       setLoading(false);

@@ -15,6 +15,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
+import { Avatar } from "@mui/material";
+import Modal from "./Modal";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -80,7 +82,15 @@ export default function Nav() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -98,8 +108,16 @@ export default function Nav() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>{user.name}</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          handleClickOpen();
+        }}
+      >
+        <Modal open={open} handleClose={handleClose} />
+        {user.name}
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -205,7 +223,11 @@ export default function Nav() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar
+                sx={{ width: 32, height: 32 }}
+                alt={user.name.slice(0, 2)}
+                src={user.image}
+              />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
